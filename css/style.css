@@ -1287,6 +1287,12 @@ p {
 .stagger.visible > *:nth-child(9) { transition-delay: 0.8s; }
 .stagger.visible > *:nth-child(10) { transition-delay: 0.9s; }
 
+.initiatives__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
 .stagger.visible > * {
   opacity: 1;
   transform: translateY(0);
@@ -1398,7 +1404,7 @@ p {
     grid-template-columns: 1fr;
   }
 
-  #initiatives [style*="grid-template-columns"] {
+  .initiatives__grid {
     grid-template-columns: 1fr !important;
   }
 
