@@ -1398,6 +1398,10 @@ p {
     grid-template-columns: 1fr;
   }
 
+  #initiatives [style*="grid-template-columns"] {
+    grid-template-columns: 1fr !important;
+  }
+
   .footer__grid {
     grid-template-columns: 1fr;
     gap: 2.5rem;
