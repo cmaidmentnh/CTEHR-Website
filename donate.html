@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Donate | Committee to Elect House Republicans</title>
+  <meta name="description" content="Support Republican candidates in New Hampshire. Your donation helps protect the NH Advantage.">
+  <link rel="icon" href="favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://js.stripe.com/v3/"></script>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+  <style>
+    .donate-section { padding: 4rem 0; }
+    .donate-grid { max-width: var(--max-width); margin: 0 auto; }
+    .donate-info h2 { margin-bottom: 1rem; }
+    .donate-info p { font-size: 1.1rem; line-height: 1.8; margin-bottom: 1.5rem; }
+    .donate-form-wrap { background: var(--white); padding: 2.5rem; border-bottom: 3px solid var(--red-primary); }
+    .amount-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; margin-bottom: 1.5rem; }
+    .amount-btn {
+      padding: 1rem; text-align: center; font-family: 'Norwester', sans-serif;
+      font-size: 1.25rem; cursor: pointer; border: 2px solid var(--gray-200);
+      background: var(--white); color: var(--gray-700); transition: all 0.2s;
+    }
+    .amount-btn:hover { border-color: var(--red-primary); color: var(--red-primary); }
+    .amount-btn.active { background: var(--red-primary); color: var(--white); border-color: var(--red-primary); }
+    .custom-amount { position: relative; margin-bottom: 1.5rem; }
+    .custom-amount input {
+      width: 100%; padding: 1rem 1rem 1rem 2rem; font-size: 1.1rem;
+      border: 2px solid var(--gray-200); font-family: 'Barlow', sans-serif;
+    }
+    .custom-amount input:focus { outline: none; border-color: var(--red-primary); }
+    .custom-amount span {
+      position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%);
+      font-size: 1.1rem; color: var(--gray-400);
+    }
+    #card-element {
+      padding: 1rem; border: 2px solid var(--gray-200); margin-bottom: 1rem;
+    }
+    #card-element.StripeElement--focus { border-color: var(--red-primary); }
+    #card-errors { color: #dc2626; font-size: 0.85rem; margin-bottom: 1rem; min-height: 1.25rem; }
+    .donate-submit {
+      width: 100%; padding: 1.1rem; font-family: 'Norwester', sans-serif;
+      font-size: 1.1rem; letter-spacing: 3px; text-transform: uppercase;
+      background: var(--red-primary); color: var(--white); border: none;
+      cursor: pointer; transition: background 0.2s;
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+    }
+    .donate-submit:hover { background: var(--red-dark); }
+    .donate-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+    .donate-success { display: none; text-align: center; padding: 3rem 2rem; }
+    .donate-success h3 { color: #16a34a; margin-bottom: 1rem; }
+    .donor-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem; }
+    .donor-field input, .donor-field select {
+      width: 100%; padding: 0.75rem; border: 2px solid var(--gray-200);
+      font-family: 'Barlow', sans-serif; font-size: 0.95rem;
+    }
+    .donor-field input:focus, .donor-field select:focus { outline: none; border-color: var(--red-primary); }
+    .donor-field label { display: block; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--gray-600); margin-bottom: 0.35rem; }
+    .secure-note { text-align: center; margin-top: 1rem; font-size: 0.8rem; color: var(--gray-400); }
+    .secure-note i { margin-right: 0.25rem; }
+    @media (max-width: 768px) {
+      .donate-grid { grid-template-columns: 1fr; }
+      .amount-grid { grid-template-columns: repeat(2, 1fr); }
+      .donor-info-grid { grid-template-columns: 1fr; }
+      #step-1 { grid-template-columns: 1fr !important; }
+      #step-2 > div { grid-template-columns: 1fr !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header header--transparent">
+    <div class="header__inner">
+      <a href="index.html" class="header__logo">
+        <img src="images/logo.png" alt="Committee to Elect House Republicans">
+      </a>
+      <nav class="header__nav">
+        <ul class="header__nav-list">
+          <li><a href="index.html" class="header__nav-link">Home</a></li>
+          <li><a href="leadership.html" class="header__nav-link">Leadership</a></li>
+          <li><a href="contract.html" class="header__nav-link">Contract with NH</a></li>
+          <li><a href="contact.html" class="header__nav-link">Contact</a></li>
+          <li><a href="https://actioncenter.winthehouse.gop/" target="_blank" rel="noopener" class="header__nav-link">Action Center</a></li>
+        </ul>
+        <div class="header__donate">
+          <a href="donate.html" class="btn btn--primary">Donate</a>
+        </div>
+      </nav>
+      <button class="header__toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Page Hero -->
+  <section class="page-hero">
+    <div class="page-hero__bg" style="background-image: url('images/bg-2.jpeg');"></div>
+    <div class="container">
+      <div class="page-hero__content">
+        <span class="page-hero__label">Support Our Mission</span>
+        <h1 class="page-hero__title">Donate</h1>
+        <p class="page-hero__text">
+          Your contribution directly supports Republican candidates fighting to
+          protect the New Hampshire Advantage.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Donate Section -->
+  <section class="donate-section">
+    <div class="container">
+      <div class="donate-grid">
+
+        <div class="donate-form-wrap" id="donate-form-container">
+
+          <!-- STEP 1: Description left, Amount right -->
+          <div id="step-1" style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start;">
+            <div>
+              <h2 style="margin-bottom: 1rem;">Help Us Win the Majority</h2>
+              <p style="font-size: 1.1rem; line-height: 1.8;">
+                Democrats have a plan to tax your paycheck. House Republicans are the only
+                thing standing in their way. Your donation helps us recruit, train, and elect
+                conservative candidates across all 400 House seats.
+              </p>
+              <p style="font-size: 1.1rem; line-height: 1.8;">
+                Every dollar counts in this fight for New Hampshire.
+              </p>
+              <div style="margin-top: 1.5rem; padding: 1.25rem; border-left: 3px solid var(--red-primary); background: var(--off-white);">
+                <p style="margin: 0; font-weight: 600; color: var(--gray-800);">
+                  "No income tax. No sales tax. Not now, not ever."
+                </p>
+              </div>
+            </div>
+            <div>
+              <h3 style="margin-bottom: 1rem;">Choose Your Amount</h3>
+              <div class="amount-grid">
+                <button class="amount-btn" data-amount="25">$25</button>
+                <button class="amount-btn" data-amount="50">$50</button>
+                <button class="amount-btn active" data-amount="100">$100</button>
+                <button class="amount-btn" data-amount="250">$250</button>
+                <button class="amount-btn" data-amount="500">$500</button>
+                <button class="amount-btn" data-amount="1000">$1,000</button>
+                <button class="amount-btn" data-amount="2500">$2,500</button>
+                <button class="amount-btn" data-amount="5000">$5,000</button>
+              </div>
+              <div class="custom-amount">
+                <span>$</span>
+                <input type="number" id="custom-amount" placeholder="Other amount" min="1" step="1">
+              </div>
+              <button class="donate-submit" id="step1-next" type="button">Continue</button>
+            </div>
+          </div>
+
+          <!-- STEP 2: Info + Payment side by side -->
+          <div id="step-2" style="display: none;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem;">
+
+              <!-- Left: Donor Info -->
+              <div>
+                <h4 style="margin-bottom: 1rem;">Your Information</h4>
+                <div class="donor-info-grid">
+                  <div class="donor-field"><label>First Name</label><input type="text" id="donor-first" required></div>
+                  <div class="donor-field"><label>Last Name</label><input type="text" id="donor-last" required></div>
+                </div>
+                <div class="donor-field" style="margin-bottom: 1rem;"><label>Email</label><input type="email" id="donor-email" required></div>
+                <div class="donor-field" style="margin-bottom: 1rem;"><label>Address</label><input type="text" id="donor-address" required></div>
+                <div style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem;">
+                  <div class="donor-field"><label>City</label><input type="text" id="donor-city" required></div>
+                  <div class="donor-field"><label>State</label><input type="text" id="donor-state" value="NH" required></div>
+                  <div class="donor-field"><label>ZIP</label><input type="text" id="donor-zip" required></div>
+                </div>
+                <div class="donor-info-grid">
+                  <div class="donor-field"><label>Employer</label><input type="text" id="donor-employer" required></div>
+                  <div class="donor-field"><label>Occupation</label><input type="text" id="donor-occupation" required></div>
+                </div>
+                <div class="donor-field" style="margin-bottom: 0;"><label>Phone (optional)</label><input type="tel" id="donor-phone"></div>
+              </div>
+
+              <!-- Right: Payment -->
+              <div>
+                <h4 style="margin-bottom: 1rem;">Payment</h4>
+                <div class="donor-field" style="margin-bottom: 0.5rem;">
+                  <label>Card Details</label>
+                  <div id="card-element"></div>
+                </div>
+                <div id="card-errors"></div>
+
+                <label style="display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 1rem; cursor: pointer; font-size: 0.85rem; color: var(--gray-600);">
+                  <input type="checkbox" id="sms-opt-in" style="margin-top: 3px;">
+                  I'd like to receive text updates. Msg & data rates may apply. Reply STOP to unsubscribe.
+                </label>
+
+                <div style="margin-bottom: 1rem; padding: 0.75rem; background: var(--gray-50); font-size: 0.7rem; color: var(--gray-400); line-height: 1.5;">
+                  Paid for by the Committee to Elect House Republicans. Contributions are not tax deductible.
+                  State law requires political committees to report the name, mailing address, occupation, and
+                  employer for each contributor.
+                </div>
+
+                <div class="cf-turnstile" data-sitekey="0x4AAAAAACs_6qjf1U-vcmnn" data-theme="light" style="margin-bottom: 1rem;"></div>
+
+                <div style="display: flex; gap: 0.75rem;">
+                  <button class="donate-submit" id="donate-btn" type="button" style="flex: 1;">Donate $100</button>
+                </div>
+                <button id="step2-back" type="button" style="background: none; border: none; color: var(--gray-400); cursor: pointer; font-size: 0.85rem; margin-top: 0.75rem; text-align: center; width: 100%;">&#8592; Back to amount</button>
+
+                <div class="secure-note">
+                  <i class="fas fa-lock"></i> Secure payment powered by Stripe
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Success -->
+        <div class="donate-success" id="donate-success">
+          <h3>Thank You!</h3>
+          <p>Your donation has been processed successfully. You'll receive a confirmation email shortly.</p>
+          <p style="margin-top: 1.5rem;"><a href="index.html" class="btn btn--navy">Back to Home</a></p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <a href="index.html" class="header__logo" style="margin-bottom: 0.5rem;">
+            <img src="images/logo.png" alt="Committee to Elect House Republicans">
+          </a>
+          <p>
+            Dedicated to electing conservative Republicans to the New Hampshire House
+            of Representatives who will defend our constitutional rights, keep taxes low,
+            and protect the New Hampshire Advantage.
+          </p>
+          <div class="social-links" style="margin-top: 1.5rem;">
+            <a href="https://www.facebook.com/CommitteeToElectHouseRepublicans/" target="_blank" rel="noopener" class="footer__social" aria-label="Facebook"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+            <a href="https://x.com/ctehr" target="_blank" rel="noopener" class="footer__social" aria-label="X"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+          </div>
+        </div>
+        <div class="footer__col">
+          <h4 class="footer__heading">Quick Links</h4>
+          <div class="footer__links">
+            <a href="index.html" class="footer__link">Home</a>
+            <a href="leadership.html" class="footer__link">Leadership</a>
+            <a href="contract.html" class="footer__link">Contract with NH</a>
+            <a href="contact.html" class="footer__link">Contact</a>
+          </div>
+        </div>
+        <div class="footer__col">
+          <h4 class="footer__heading">Take Action</h4>
+          <div class="footer__links">
+            <a href="donate.html" class="footer__link">Donate</a>
+            <a href="contact.html" class="footer__link">Volunteer</a>
+            <a href="https://actioncenter.winthehouse.gop/" target="_blank" rel="noopener" class="footer__link">Action Center</a>
+          </div>
+        </div>
+        <div class="footer__col">
+          <h4 class="footer__heading">Contact</h4>
+          <div class="footer__links">
+            <span class="footer__link">75 S Main St. Unit 7</span>
+            <span class="footer__link">Box 159</span>
+            <span class="footer__link">Concord, NH 03301</span>
+            <a href="mailto:info@electhouserepublicans.com" class="footer__link">info@electhouserepublicans.com</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>Paid for by the Committee to Elect House Republicans. Chairman: Rep. Jason Osborne. &copy; 2026 All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    // Stripe Donation Form
+    const stripe = Stripe('pk_live_51SoqWqRzGr6clJpbqtKpo1w8htLEJhDHbr5KO8wSxSDIJlhfYZiCTR6uJY8DpFHc2RQxVpprrAk8oD91zOBYpiHn00FeR6yazx');
+    const elements = stripe.elements();
+    const cardElement = elements.create('card', {
+      style: {
+        base: { fontSize: '16px', fontFamily: 'Barlow, sans-serif', color: '#1f2937' },
+        invalid: { color: '#dc2626' }
+      }
+    });
+    cardElement.mount('#card-element');
+
+    let selectedAmount = 100;
+    const amountBtns = document.querySelectorAll('.amount-btn');
+    const customInput = document.getElementById('custom-amount');
+    const donateBtn = document.getElementById('donate-btn');
+
+    // Step navigation
+    document.getElementById('step1-next').addEventListener('click', () => {
+      if (selectedAmount < 1) return;
+      document.getElementById('step-1').style.display = 'none';
+      document.getElementById('step-2').style.display = 'block';
+      donateBtn.textContent = 'Donate $' + selectedAmount.toLocaleString();
+    });
+
+    document.getElementById('step2-back').addEventListener('click', () => {
+      document.getElementById('step-2').style.display = 'none';
+      document.getElementById('step-1').style.display = 'block';
+    });
+
+    amountBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        amountBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedAmount = parseInt(btn.dataset.amount);
+        customInput.value = '';
+        donateBtn.textContent = 'Donate $' + selectedAmount.toLocaleString();
+      });
+    });
+
+    customInput.addEventListener('input', () => {
+      amountBtns.forEach(b => b.classList.remove('active'));
+      selectedAmount = parseInt(customInput.value) || 0;
+      donateBtn.textContent = selectedAmount > 0 ? 'Donate $' + selectedAmount.toLocaleString() : 'Enter Amount';
+    });
+
+    cardElement.on('change', (event) => {
+      document.getElementById('card-errors').textContent = event.error ? event.error.message : '';
+    });
+
+    donateBtn.addEventListener('click', async () => {
+      if (selectedAmount < 1) return;
+
+      const firstName = document.getElementById('donor-first').value;
+      const lastName = document.getElementById('donor-last').value;
+      const email = document.getElementById('donor-email').value;
+
+      if (!firstName || !lastName || !email) {
+        document.getElementById('card-errors').textContent = 'Please fill in your name and email.';
+        return;
+      }
+
+      if (!document.getElementById('donor-address').value || !document.getElementById('donor-zip').value) {
+        document.getElementById('card-errors').textContent = 'Please fill in your address.';
+        return;
+      }
+
+      if (!document.getElementById('donor-employer').value || !document.getElementById('donor-occupation').value) {
+        document.getElementById('card-errors').textContent = 'Employer and occupation are required.';
+        return;
+      }
+
+      const turnstileResponse = document.querySelector('[name="cf-turnstile-response"]');
+      if (!turnstileResponse || !turnstileResponse.value) {
+        document.getElementById('card-errors').textContent = 'Please complete the verification.';
+        return;
+      }
+
+      donateBtn.disabled = true;
+      donateBtn.textContent = 'Processing...';
+
+      try {
+        // Create payment intent via CRM API
+        const intentResp = await fetch('https://actioncenter.winthehouse.gop/api/donate/website/create-intent', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            amount: selectedAmount,
+            email: email,
+            first_name: firstName,
+            last_name: lastName,
+            phone: document.getElementById('donor-phone').value || '',
+            address_street: document.getElementById('donor-address').value || '',
+            address_city: document.getElementById('donor-city').value || '',
+            address_state: document.getElementById('donor-state').value || '',
+            address_zip: document.getElementById('donor-zip').value || '',
+            employer: document.getElementById('donor-employer').value || '',
+            occupation: document.getElementById('donor-occupation').value || '',
+            sms_opt_in: document.getElementById('sms-opt-in').checked,
+            'cf-turnstile-response': turnstileResponse.value
+          })
+        });
+
+        const intentData = await intentResp.json();
+
+        if (!intentResp.ok || !intentData.client_secret) {
+          throw new Error(intentData.error || 'Failed to create payment');
+        }
+
+        // Confirm payment with Stripe
+        const { error, paymentIntent } = await stripe.confirmCardPayment(intentData.client_secret, {
+          payment_method: {
+            card: cardElement,
+            billing_details: {
+              name: firstName + ' ' + lastName,
+              email: email
+            }
+          }
+        });
+
+        if (error) {
+          throw new Error(error.message);
+        }
+
+        if (paymentIntent.status === 'succeeded') {
+          // Confirm with CRM
+          await fetch('https://actioncenter.winthehouse.gop/api/donate/website/confirm', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ payment_intent_id: paymentIntent.id })
+          });
+
+          document.getElementById('donate-form-container').style.display = 'none';
+          document.getElementById('donate-success').style.display = 'block';
+        }
+      } catch (err) {
+        document.getElementById('card-errors').textContent = err.message;
+        donateBtn.disabled = false;
+        donateBtn.textContent = 'Donate $' + selectedAmount.toLocaleString();
+      }
+    });
+  </script>
+</body>
+</html>

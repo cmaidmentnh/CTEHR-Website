@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us | Committee to Elect House Republicans</title>
+  <link rel="icon" href="favicon.ico">
+  <meta name="description" content="Get in touch with the Committee to Elect House Republicans. Volunteer, donate, or reach out with questions.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header header--transparent">
+    <div class="header__inner">
+      <a href="index.html" class="header__logo">
+        <img src="images/logo.png" alt="Committee to Elect House Republicans">
+      </a>
+      <nav class="header__nav">
+        <ul class="header__nav-list">
+          <li><a href="index.html" class="header__nav-link">Home</a></li>
+          <li><a href="leadership.html" class="header__nav-link">Leadership</a></li>
+          <li><a href="contract.html" class="header__nav-link">Contract with NH</a></li>
+          <li><a href="contact.html" class="header__nav-link header__nav-link--active">Contact</a></li>
+          <li><a href="https://actioncenter.winthehouse.gop/" target="_blank" rel="noopener" class="header__nav-link">Action Center</a></li>
+        </ul>
+        <div class="header__donate">
+          <a href="donate.html" class="btn btn--primary">Donate</a>
+        </div>
+      </nav>
+      <button class="header__toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Page Hero -->
+  <section class="page-hero">
+    <div class="page-hero__bg" style="background-image: url('images/hero-statehouse.jpg');"></div>
+    <div class="container">
+      <div class="page-hero__content">
+        <span class="page-hero__label">Get in Touch</span>
+        <h1 class="page-hero__title">Contact Us</h1>
+        <p class="page-hero__text">
+          Have questions? Want to volunteer? Ready to help elect a Republican
+          majority in New Hampshire? We'd love to hear from you.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="section">
+    <div class="container">
+      <div class="contact__grid">
+
+        <div class="contact__info fade-in-left">
+          <div>
+            <h3 style="margin-bottom: 1rem;">How Can We Help?</h3>
+            <p>
+              Whether you want to volunteer for a campaign, donate to support our
+              candidates, or simply learn more about our mission, we're here to help.
+            </p>
+          </div>
+
+          <div class="contact__info-item">
+            <div class="contact__info-icon"><i class="fas fa-location-dot"></i></div>
+            <div>
+              <div class="contact__info-label">Mailing Address</div>
+              <div class="contact__info-text">
+                75 S Main St. Unit 7, Box 159<br>
+                Concord, NH 03301
+              </div>
+            </div>
+          </div>
+
+          <div class="contact__info-item">
+            <div class="contact__info-icon"><i class="fas fa-envelope"></i></div>
+            <div>
+              <div class="contact__info-label">Email</div>
+              <a href="mailto:info@electhouserepublicans.com" class="contact__info-text" style="color: var(--red-primary);">
+                info@electhouserepublicans.com
+              </a>
+            </div>
+          </div>
+
+          <div class="contact__info-item">
+            <div class="contact__info-icon"><i class="fas fa-user-tie"></i></div>
+            <div>
+              <div class="contact__info-label">Chairman</div>
+              <div class="contact__info-text">Rep. Jason Osborne</div>
+            </div>
+          </div>
+
+          <div>
+            <div class="contact__info-label" style="margin-bottom: 0.75rem;">Follow Us</div>
+            <div class="social-links">
+              <a href="https://www.facebook.com/CommitteeToElectHouseRepublicans/" target="_blank" rel="noopener" class="footer__link" aria-label="Facebook">
+                Facebook
+              </a>
+              <a href="https://x.com/ctehr" target="_blank" rel="noopener" class="footer__link" aria-label="X (Twitter)">
+                X (Twitter)
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact__form fade-in-right">
+          <h3 style="margin-bottom: 0.5rem;">Send Us a Message</h3>
+          <p style="margin-bottom: 2rem; font-size: 0.95rem;">
+            Fill out the form below and we'll get back to you as soon as possible.
+          </p>
+
+          <form>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input type="text" id="firstName" name="firstName" placeholder="John" required>
+              </div>
+              <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" id="lastName" name="lastName" placeholder="Smith" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" name="email" placeholder="john@example.com" required>
+            </div>
+
+            <div class="form-group">
+              <label for="subject">Subject</label>
+              <select id="subject" name="subject">
+                <option value="" disabled selected>Select a topic</option>
+                <option value="volunteer">I Want to Volunteer</option>
+                <option value="donate">Donation Questions</option>
+                <option value="candidate">Running for Office</option>
+                <option value="media">Media Inquiry</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" placeholder="Tell us how you'd like to get involved..." required></textarea>
+            </div>
+
+            <label style="display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 1rem; cursor: pointer; font-size: 0.85rem; color: var(--gray-600);">
+              <input type="checkbox" id="sms-opt-in" name="sms_opt_in" style="margin-top: 3px;">
+              I'd like to receive text message updates. Msg & data rates may apply. Reply STOP to unsubscribe.
+            </label>
+
+            <div class="cf-turnstile" data-sitekey="0x4AAAAAACs_6qjf1U-vcmnn" data-theme="light"></div>
+
+            <button type="submit" class="btn btn--primary btn--lg" style="width: 100%; justify-content: center; margin-top: 1rem;">
+              Send Message
+            </button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <a href="index.html" class="header__logo" style="margin-bottom: 0.5rem;">
+            <img src="images/logo.png" alt="Committee to Elect House Republicans">
+          </a>
+          <p>
+            Dedicated to electing conservative Republicans to the New Hampshire House
+            of Representatives who will defend our constitutional rights, keep taxes low,
+            and protect the New Hampshire Advantage.
+          </p>
+          <div class="social-links" style="margin-top: 1.5rem;">
+            <a href="https://www.facebook.com/CommitteeToElectHouseRepublicans/" target="_blank" rel="noopener" class="footer__social" aria-label="Facebook"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+            <a href="https://x.com/ctehr" target="_blank" rel="noopener" class="footer__social" aria-label="X"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+          </div>
+        </div>
+        <div class="footer__col">
+          <h4 class="footer__heading">Quick Links</h4>
+          <div class="footer__links">
+            <a href="index.html" class="footer__link">Home</a>
+            <a href="leadership.html" class="footer__link">Leadership</a>
+            <a href="contract.html" class="footer__link">Contract with NH</a>
+            <a href="contact.html" class="footer__link">Contact</a>
+          </div>
+        </div>
+        <div class="footer__col">
+          <h4 class="footer__heading">Take Action</h4>
+          <div class="footer__links">
+            <a href="donate.html" class="footer__link">Donate</a>
+            <a href="contact.html" class="footer__link">Volunteer</a>
+            <a href="https://actioncenter.winthehouse.gop/" target="_blank" rel="noopener" class="footer__link">Action Center</a>
+          </div>
+        </div>
+        <div class="footer__col">
+          <h4 class="footer__heading">Contact</h4>
+          <div class="footer__links">
+            <span class="footer__link">75 S Main St. Unit 7</span>
+            <span class="footer__link">Box 159</span>
+            <span class="footer__link">Concord, NH 03301</span>
+            <a href="mailto:info@electhouserepublicans.com" class="footer__link">info@electhouserepublicans.com</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>Paid for by the Committee to Elect House Republicans. Chairman: Rep. Jason Osborne. &copy; 2026 All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
